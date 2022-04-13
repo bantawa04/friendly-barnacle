@@ -8,7 +8,7 @@ require('dotenv').config();
 
 // Passport
 // import "./middleware/passport";
-const passport = require("./middleware/passport");
+const fireStart = require("./middleware/passport");
 
 //Routes
 const  UserRoutes = require( "./routes/User");

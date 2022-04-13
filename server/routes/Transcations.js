@@ -1,7 +1,6 @@
-import { Router } from "express";
-import * as TransactionController from "../controllers/Transactions";
-
-const router = new Router();
+const express = require("express");
+const router = express.Router();
+const TransactionController = require("../controllers/Transactions");
 
 router.get("/", TransactionController.getAllTransactions);
 router.get("/completed", TransactionController.getAllCompletedTransactions);
@@ -15,4 +14,4 @@ router.post("/update/:id", TransactionController.updateTransaction);
 router.post("/delete/:id", TransactionController.deleteTransaction);
 router.post("/submit", TransactionController.submitTransaction);
 
-export default router;
+module.exports = router;

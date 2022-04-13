@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 //require express validator methods
 const { body, check, validationResult } =  require("express-validator");
 //require user model 
-const User = require("../models/User");
+const User = require("../models/Users");
 //require user token and get by user email
 const { getUserToken, getUserByEmail } = require("./User");
 
