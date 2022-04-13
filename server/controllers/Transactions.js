@@ -1,7 +1,7 @@
-import TransactionModel from "../models/Transactions";
-import Users from "../models/Users";
+const TransactionModel = require ("../models/Transactions");
+const Users = require("../models/Users");
 
-const getAllTransactions = async (req, res) => {
+exports.getAllTransactions = async (req, res) => {
   try {
     const transactions = await TransactionModel.find();
     res.status(200).json({ isSuccess: true, data: transactions });
@@ -10,7 +10,7 @@ const getAllTransactions = async (req, res) => {
   }
 };
 
-const getAllCompletedTransactions = async (req, res) => {
+exports.getAllCompletedTransactions = async (req, res) => {
   try {
     const transactions = await TransactionModel.find({
       completed: { $eq: true },
@@ -21,7 +21,7 @@ const getAllCompletedTransactions = async (req, res) => {
   }
 };
 
-const getCompletedTransactionsByUser = async (req, res) => {
+exports.getCompletedTransactionsByUser = async (req, res) => {
   try {
     const transactions = await TransactionModel.find({
       userId: req.params.id,
@@ -33,7 +33,7 @@ const getCompletedTransactionsByUser = async (req, res) => {
   }
 };
 
-const getTransactionByUser = async (req, res) => {
+exports.getTransactionByUser = async (req, res) => {
   try {
     const user = await TransactionModel.find({
       userId: req.params.id,
@@ -45,7 +45,7 @@ const getTransactionByUser = async (req, res) => {
   }
 };
 
-const createTransaction = async (req, res) => {
+exports.createTransaction = async (req, res) => {
   const { userId, mValue, kValue, sValue } = req.body;
   try {
     const user = await Users.findOne({ _id: userId });
@@ -74,7 +74,7 @@ const createTransaction = async (req, res) => {
   }
 };
 
-const updateTransaction = async (req, res) => {
+exports.updateTransaction = async (req, res) => {
   const { userId, mValue, kValue, sValue } = req.body;
   const transactionId = req.params.id;
   try {
@@ -107,7 +107,7 @@ const updateTransaction = async (req, res) => {
   }
 };
 
-const deleteTransaction = async (req, res) => {
+exports.deleteTransaction = async (req, res) => {
   const transactionId = req.params.id;
   try {
     await TransactionModel.findByIdAndDelete(transactionId);
@@ -123,7 +123,7 @@ const deleteTransaction = async (req, res) => {
   }
 };
 
-const submitTransaction = async (req, res) => {
+exports.submitTransaction = async (req, res) => {
   const { transIds } = req.body;
   try {
     const updatedRes = await TransactionModel.updateMany(
@@ -142,15 +142,4 @@ const submitTransaction = async (req, res) => {
   } catch (e) {
     return { isSuccess: false, message: e.message };
   }
-};
-
-export {
-  getAllTransactions,
-  getAllCompletedTransactions,
-  getTransactionByUser,
-  createTransaction,
-  updateTransaction,
-  deleteTransaction,
-  submitTransaction,
-  getCompletedTransactionsByUser,
 };

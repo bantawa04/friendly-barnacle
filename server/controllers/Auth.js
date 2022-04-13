@@ -1,10 +1,13 @@
-import bcrypt from "bcrypt";
-import { body, check, validationResult } from "express-validator";
+//require bcrypt 
+const bcrypt = require("bcrypt");
+//require express validator methods
+const { body, check, validationResult } =  require("express-validator");
+//require user model 
+const User = require("../models/User");
+//require user token and get by user email
+const { getUserToken, getUserByEmail } = require("./User");
 
-import User from "../models/Users";
-import { getUserToken, getUserByEmail } from "./User";
-
-const validate = (method) => {
+exports.validate = (method) => {
   switch (method) {
     case "register": {
       return [
@@ -39,7 +42,7 @@ const validate = (method) => {
   }
 };
 
-const getErrorsFromValidationErrors = (validationErrors) => {
+exports.getErrorsFromValidationErrors = (validationErrors) => {
   const errors = validationErrors.map((error) => ({
     location: error.param,
     message: error.msg,
@@ -47,7 +50,7 @@ const getErrorsFromValidationErrors = (validationErrors) => {
   return errors;
 };
 
-const registerUser = async (userInfo) => {
+exports.registerUser = async (userInfo) => {
   const { name, address, email, password, phone, role } = userInfo;
   try {
     const newUser = new User({
@@ -72,7 +75,7 @@ const registerUser = async (userInfo) => {
   }
 };
 
-const register = async (req, res) => {
+exports.register = async (req, res) => {
   const { email } = req.body;
   try {
     const validationErrors = await validationResult(req);
@@ -106,7 +109,7 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const validationErrors = validationResult(req);
@@ -146,5 +149,3 @@ const login = async (req, res) => {
     res.status(401).json({ isSuccess: false, message: "Login Failed!" });
   }
 };
-
-export { validate, register, login };

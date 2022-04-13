@@ -1,18 +1,19 @@
-import express from "express";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 // import cors from "cors";
-import passport from "passport";
-import path from "path";
-import "dotenv/config";
+const passport = require("passport");
+const path = require("path");
+require('dotenv').config();
 
 // Passport
-import "./middleware/passport";
+// import "./middleware/passport";
+const passport = require("./middleware/passport");
 
 //Routes
-import UserRoutes from "./routes/User";
-import AuthRoutes from "./routes/Auth";
-import TransactionRoutes from "./routes/Transcations";
+const  UserRoutes = require( "./routes/User");
+const  AuthRoutes = require( "./routes/Auth");
+const  TransactionRoutes = require( "./routes/Transcations");
 
 const { MONGOURL } = process.env;
 

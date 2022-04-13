@@ -4,7 +4,7 @@
   "description": "Track user with money transcations.",
   "main": "server/index.js",
   "scripts": {
-    "start": "babel-node server/index.js",
+    "start": "nodemon server/index.js",
     "start:dev": "nodemon --exec babel-node server/index.js",
     "client": "cd client && yarn start",
     "test": "echo \"Error: no test specified\" && exit 1",

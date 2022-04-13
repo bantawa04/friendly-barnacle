@@ -1,12 +1,13 @@
-import jwt from "jsonwebtoken";
-import TransactionModel from "../models/Transactions";
-import UserModel from "../models/Users";
+//require jwt for auth
+const jwt = require("jsonwebtoken");
+const TransactionModel = require("../models/Transactions");
+const UserModel = require("../models/Users");
 
-import User from "../models/Users";
+const User = require("../models/Users");
 
 const { SECRET_KEY } = process.env;
 
-const getAllUsers = async (req, res) => {
+exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}).select(["-password"]); // don't send password in response
     res.status(200).json({ isSuccess: true, data: users });
@@ -15,12 +16,12 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-const getUserToken = async (user) => {
+exports.getUserToken = async (user) => {
   const token = jwt.sign({ user }, SECRET_KEY, { expiresIn: 120000 });
   return "jwt " + token;
 };
 
-const getUserByEmail = async (email) => {
+exports.getUserByEmail = async (email) => {
   try {
     const user = await User.findOne({ email: email.trim() }).exec();
     if (!user) return { status: false };
@@ -30,7 +31,7 @@ const getUserByEmail = async (email) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res) => {
   const userId = req.params.id;
   try {
     await User.findByIdAndDelete(userId);
@@ -47,7 +48,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
+exports.updateUser = async (req, res) => {
   const { userId, mValue, kValue, sValue } = req.body;
   try {
     const updatedTransaction = await UserModel.findByIdAndUpdate(
@@ -73,5 +74,3 @@ const updateUser = async (req, res) => {
     };
   }
 };
-
-export { getAllUsers, getUserToken, getUserByEmail, deleteUser, updateUser };
